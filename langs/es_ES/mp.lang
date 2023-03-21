@@ -1,0 +1,95 @@
+# Copyright (C) 2023 SuperAdmin
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+#
+# Generic
+#
+
+# Module label 'ModuleMPName'
+ModuleMPName = Doli Mercado Pago
+# Module description 'ModuleMPDesc'
+ModuleMPDesc = Mercado pago. Pagos online.<br>Checkout pro
+
+#
+# Admin page
+#
+MPSetup = MP configuracición
+Settings = Configuración
+MPSetupPage = Configuración MP
+MP_CREDENTIALS = Modo.
+MP_CREDENTIALSTooltip = <b>Credenciales de produccion:</b> Usa estas claves para recibir cobros online.<br><b>Credenciales de prueba:</b> Usa estas claves para simular pagos y testear tus integraciones.
+MP_PUBLIC_KEY = Llave publica
+MP_PUBLIC_KEYTooltip = Llave publica, visita tus credenciales.
+MP_ACCESS_TOKEN=Token de acceso
+MP_ACCESS_TOKENTooltip=Token de acceso, visita tus credenciales. Nunca compartas esta informacion .
+mpparams = Otros parámetros de configuración.
+MP_BANK_ACCOUNT_FOR_PAYMENTS=Cuenta bancaria
+MP_BANK_ACCOUNT_FOR_PAYMENTSTooltip=Cuenta bancaria en dónde séra registrado el pago.<br>Recuerde que debe ser una cuenta corriente.
+MP_TYPE_FOR_PAYMENTS=Forma de pago
+MP_TYPE_FOR_PAYMENTSTooltip=Puede cambiar estos valores desde el diccionario.<br>La cuenta bancaria debe ser una <b>Cuenta corriente.</b><br>Se recomienda seleccionar <b>Online payment</b><br>Si no se encuentra activa la opcion online payment, puede activarlo desde Configuración del diccionario - Modos de pago.
+mpparamsurls=Seguridad de las URLs
+MP_KEY_URL=Clave para encriptar urls
+MP_SECURY_KEY_UNIQUE_URL=¿Usar un parámetro securekey único para cada URL?
+mpmassparams=Enlaces de pagos..
+MP_CONFIG_BUTTON_LINKS=Crear enlace al validar la factura
+MP_CONFIG_BUTTON_LINKSTooltip=<b>Establecer a sí, en caso de querer que se cree un enlace `preferencia de pago` automáticamente al validar la factura.</b><br>Caso contrario debera crear el enlace `preferencia de pago` manualmente desde la factura.
+
+#
+# About page
+#
+About = About
+MPAbout = About MP
+MPAboutPage = MP about page
+
+#
+# Sample page
+#
+MPArea = Home MP
+MyPageName = My page name
+
+#
+# Sample widget
+#
+MyWidget = My widget
+MyWidgetDescription = My widget description
+
+#
+#Mppagos
+#
+Mppagoss=Registro de preferencias en mercado pago.
+
+#
+#Buttons
+#
+SendPayment=Registrar pago en en sistema
+SendaDataMppagos= Actualizar el pago de la factura.
+ConfirmSenDataObject= Si el pago se realizo con éxito en mercado pago, pero no fue recibido aquí por algún motivo, puede actualizarlos dentro del sistema dando click en SI.<br>Debe estar seguro antes de continuar, de que dicho pago se encuentre aprobado y acreditado en Mercado Pago.<br><b>Desea continuar...</b>
+btn_create_link_mp = Mercado pago
+#
+#Mercado Pago card
+#
+tbl_elementtitle=MERCADO PAGO
+help_elementtitle_ok=El/Los pagos fueron registrado en mercado pago con esta referencia. 
+help_elementtitle_nok=El pago no fue registrado en mercado pago con esta referencia.
+tbl_elementpagos= Pagos registrados.
+tbl_element_status=Estado MP
+tbl_element_payment_id=Id de Pago
+tbl_element_merchant_order_id=Id Orden Comercial
+tbl_element_payment_type=Tipo de pago
+tbl_element_site_id=Id Sitio
+tbl_element_date_approved=Fecha aprobada
+tbl_element_transaction_amount=Monto de la transaccion
+
+
