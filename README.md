@@ -1,4 +1,4 @@
-# MP FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
+# MERCDO PAGO FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
 ## Features
 
