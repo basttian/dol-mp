@@ -166,8 +166,8 @@ class ActionsMP
 			/**
 			 * Buuscamos la preferencia
 			 */
-			$preferenc = MercadoPago\Preference::get($value['idpreference']);
-				if( $preferenc->id == $value['idpreference']){ //return 1 la preferencia se encuentra creada..
+			$preferenc = @MercadoPago\Preference::get($value['idpreference']);
+				if( !empty($value) && $preferenc->id == $value['idpreference']){ //return 1 la preferencia se encuentra creada..
 					/**
 				 	* Si la preferencia se encuentra ya creada, solo actualizamos el items..
 					*  
@@ -185,7 +185,7 @@ class ActionsMP
 										'unit_price'	=> (float)$invoice->total_ttc
 									)
 								),
-								"date_of_expiration" => "2023-03-23T00:00:00.000-03:00",//atributo obligatorio
+								"date_of_expiration" => $date_expire,//atributo obligatorio
 							);
 						};
 						$mpCurl = curl_init();
