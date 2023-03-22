@@ -24,6 +24,8 @@
  *	\brief      Home page of mp top menu
  */
 
+use PhpOffice\PhpSpreadsheet\Calculation\DateTime;
+
 // Load Dolibarr environment
 $res = 0;
 // Try main.inc.php into web root known defined into CONTEXT_DOCUMENT_ROOT (not always defined)
@@ -56,6 +58,7 @@ if (!$res) {
 }
 
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
+require_once DOL_DOCUMENT_ROOT.'/core/lib/functions.lib.php';
 
 // Load translation files required by the page
 $langs->loadLangs(array("mp@mp"));
@@ -84,6 +87,7 @@ $now = dol_now();
 // None
 
 
+
 /*
  * View
  */
@@ -96,6 +100,38 @@ llxHeader("", $langs->trans("MPArea"));
 print load_fiche_titre($langs->trans("MPArea"), '', 'mp.png@mp');
 
 print '<div class="fichecenter"><div class="fichethirdleft">';
+
+
+$edit = img_picto('mp', 'github', $moreatt = '', $pictoisfullpath = false, $srconly = 0, $notitle = 0, $alt = '', $morecss = '', $marginleftonlyshort = 2);
+print '<br>';
+print dolButtonToOpenUrlInDialogPopup("btn", "Lista de PREFERENCIAS", $edit, "/custom/mp/mppagos_list.php", $disabled = '', $morecss = 'button bordertransp', $backtopagejsfields = '');
+
+$fecha = date_create('now');
+print '<br>';
+print  date_format($fecha,'Y-m-d\TH:i:s.vP');
+print '<br>';
+$fecha = dol_print_date($now,'standard');
+$datetimeobj = date_create($fecha);
+print date_format($datetimeobj,'Y-m-d\TH:i:s.vP');
+print '<br>';
+
+print img_picto('mp', 'object_mp_left@mp', $moreatt = '', $pictoisfullpath = false, $srconly = 0, $notitle = 0, $alt = '', $morecss = '', $marginleftonlyshort = 2);
+print '<br>';
+print img_object('alt', 'delete', $moreatt = '', $pictoisfullpath = false, $srconly = 0, $notitle = 0);
+print '<br>'; 
+print img_edit($titlealt = 'default', $float = 0, $other = '');
+print '<br>'; 
+print img_error($titlealt = 'default');
+print '<br>';
+print img_warning($titlealt = 'default', $moreatt = '', $morecss = 'pictowarning'); 
+print '<br>';
+print picto_from_langcode('AR', $moreatt = '', $notitlealt = 0);
+print '<br>';
+print dolGetButtonTitle("Label", $helpText = 'FILE', $iconClass = 'fa fa-file', $url = '/custom/mp/mppagos_list.php', $id = '', $status = 1, $params = array());
+print '<br>';
+print '<br>';
+print '<br>';
+print '<br>';
 
 
 /* BEGIN MODULEBUILDER DRAFT MYOBJECT
@@ -235,6 +271,35 @@ if (! empty($conf->mp->enabled) && $user->rights->mp->read)
 */
 
 print '</div></div>';
+
+$datos = array(
+	array(
+		'nombre' => 'peras',
+		'precio' => 52.5
+	),
+	array(
+		'nombre' => 'manzanas',
+		'precio' => 15.5
+	),
+	array(
+		'nombre' => 'banana',
+		'precio' => 23
+	),
+
+);
+$total=0;
+startSimpleTable("ProposalsDraft", "comm/propal/list.php", "search_status=", 2, count($datos));
+for ($i=0; $i < count($datos) ; $i++) { 
+	$total += $datos[$i]['precio'];
+
+	print '<tr class="oddeven">';
+	print '<td class="nowrap">'.$datos[$i]['nombre'].'</td>';
+	print '<td class="nowrap right">$'.price($datos[$i]['precio']).'</td>';
+	print '</tr>';
+
+}
+print addSummaryTableLine(1,  count($datos), $nbofloop, $total, "NoProposal");
+print finishSimpleTable(true);
 
 // End of page
 llxFooter();

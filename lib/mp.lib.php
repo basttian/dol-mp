@@ -79,7 +79,7 @@ function aprobarPagosEnElSistema($obresponsemp)
 
 
 	if (!empty($obresponsemp)) {
-		include_once DOL_DOCUMENT_ROOT . '/compta/facture/class/facture.class.php';
+		include_once DOL_DOCUMENT_ROOT.'/compta/facture/class/facture.class.php';
 		$invoice = new Facture($db);
 		$invoice->fetch($datapago->external_reference);
 		include_once DOL_DOCUMENT_ROOT . '/custom/mp/lib/mp/autoload.php';
@@ -116,7 +116,7 @@ function aprobarPagosEnElSistema($obresponsemp)
 				$paymentTypeId = dol_getIdFromCode($db, $paymentType, 'c_paiement', 'code', 'id', 1);
 				if (!empty($FinalPaymentMp) && $paymentTypeId > 0) {
 					$db->begin();
-					include_once DOL_DOCUMENT_ROOT . '/compta/paiement/class/paiement.class.php';
+					include_once DOL_DOCUMENT_ROOT.'/compta/paiement/class/paiement.class.php';
 					$paiement = new Paiement($db);
 					$paiement->datepaye = $now;
 					if (!empty($conf->currency)) {

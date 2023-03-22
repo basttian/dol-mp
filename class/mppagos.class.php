@@ -1162,6 +1162,34 @@ class Mppagos extends CommonObject
 		}
 	}
 
+	/**
+	 * Buscar preferencia id, para evitar preferencias duplicadas en mercado pago
+	 * @return int idpreference 
+	 */
+	public function getPreferenceId($fk_facture){
+		global $db;
+		$sql = "SELECT mp_preference_id FROM ".MAIN_DB_PREFIX."mp_mppagos WHERE fk_facture = ".(int)$fk_facture;
+		$resql = $db->query($sql);
+		if ($resql)
+		{
+			$num = $db->num_rows($resql);
+			$i = 0;
+			if ($num)
+			{
+				while ($i < $num)
+				{
+					$obj = $db->fetch_object($resql);
+					if ($obj)
+					{
+						return array('idpreference'=>$obj->mp_preference_id);
+					}
+					$i++;
+				}
+			}
+		}else {
+			dol_print_error($db);
+		}
+	}
 
 
 

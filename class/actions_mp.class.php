@@ -156,7 +156,69 @@ class ActionsMP
 			 */
 			if($action == 'confirm_valid' || $action == 'create_link') {
 
-			
+			/**
+			 * Verificamos si no se encuentra la preferencia ya creada, para evitar duplicados en nuestra referencia.
+			 * Si se encuentra ya creada, solo actualizamos el precio conservvando el enlace ya creado.
+			 * Enviamos los datos con el precio actualizado, por si hubo algun cambio en la factura.
+			 */
+			$verifierPreferenceId = new Mppagos($db);
+			$value = $verifierPreferenceId->getPreferenceId($object->id);
+			/**
+			 * Buuscamos la preferencia
+			 */
+			$preferenc = MercadoPago\Preference::get($value['idpreference']);
+				if( $preferenc->id == $value['idpreference']){ //return 1 la preferencia se encuentra creada..
+					/**
+				 	* Si la preferencia se encuentra ya creada, solo actualizamos el items..
+					*  
+				 	*/
+					$arr = array();
+					try {
+						for ($i=0; $i < count($preferenc->items); $i++) { 
+							$arr[] = array(
+								"items" => array (
+									array (
+										'id' 			=> $invoice->id,
+										'category_id' 	=> 'Facturacion',
+										'title' 		=> 'MP_'.$soc->code_client.'_'.$invoice->id,
+										'quantity' 		=> 1,
+										'unit_price'	=> (float)$invoice->total_ttc
+									)
+								),
+								"date_of_expiration" => "2023-03-23T00:00:00.000-03:00",//atributo obligatorio
+							);
+						};
+						$mpCurl = curl_init();
+						curl_setopt($mpCurl, CURLOPT_URL, "https://api.mercadopago.com/checkout/preferences/".$value['idpreference']);
+						curl_setopt($mpCurl, CURLOPT_HEADER, 1);
+						curl_setopt($mpCurl, CURLOPT_HTTPHEADER, array(
+							"Authorization: Bearer ".$conf->global->MP_ACCESS_TOKEN,
+							"Content-Type: application/json"
+						));
+						curl_setopt($mpCurl, CURLOPT_RETURNTRANSFER, true);
+						curl_setopt($mpCurl, CURLOPT_CUSTOMREQUEST, "PUT");
+						curl_setopt($mpCurl, CURLOPT_POSTFIELDS, json_encode($arr));
+						$resp = curl_exec($mpCurl);
+						if(!curl_errno($mpCurl)){
+							$info = curl_getinfo($mpCurl);
+							dol_syslog( 'Took ' . $info['total_time'] . ' seconds to send a request to ' . $info['url']);
+							if ($info['http_code']==200) {
+								setEventMessages("Enlace de mercado pago actualizado con éxito $".price2num($invoice->total_ttc), '', $style = 'mesgs', $messagekey = 'mesgs');
+							}
+						} else {
+							dol_syslog( 'Curl error: ' . curl_error($mpCurl));
+						}
+						curl_close($mpCurl);	
+					} catch (Exception $e) {
+						echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+					}
+				}
+				else
+				{
+				/**
+				 * Si no se encuentra la preferencia .. 
+				 * Creamos el enlace y apuntamos en nuetra tabla los datos, que luego actualizamos cuando se reciba el pago.
+				 */
 
 				if($invoice->total_ttc > 0  && (isset($conf->global->MP_CONFIG_BUTTON_LINKS)?1:0) || $securekey==GETPOST('s','aZ09') && (isset($conf->global->MP_CONFIG_BUTTON_LINKS)?0:1) ){//notas de credito `no programado` solo valores a cobrar que sean positivos
 
@@ -283,13 +345,17 @@ class ActionsMP
 
 				}	
 
+				}
 			}
 
 			/**
 			 * Si se elimina o modifica la factura, se elimina el enlace.
 			 * Si se clasifica abandonado action canceled, no se realiza ninguna accion.
+			 * 
+			 * $action == 'confirm_modif' || $action == 'deletepayment'
+			 * Eliminamos el enlace y el registro solo si se borra la factura.
 			 */
-			if($action == 'confirm_modif' || $action == 'delete' || $action == 'deletepayment' ) {
+			if( $action == 'delete' ) {
 
 				//Elimino la referencia de la tabla mppagos
 				require_once DOL_DOCUMENT_ROOT.'/custom/mp/class/mppagos.class.php';
