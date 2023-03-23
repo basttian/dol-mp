@@ -185,7 +185,7 @@ function aprobarPagosEnElSistema($obresponsemp)
 						}
 					}
 					if (!$error && !empty($conf->banque->enabled)) {
-						$paymentmethod == $conf->global->MP_TYPE_FOR_PAYMENTS;
+						$paymentmethod = $conf->global->MP_TYPE_FOR_PAYMENTS;
 						if (!empty($conf->global->MP_BANK_ACCOUNT_FOR_PAYMENTS)) {
 							$label = '(CustomerInvoicePayment)';
 							if ($invoice->type == Facture::TYPE_CREDIT_NOTE) {
