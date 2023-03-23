@@ -443,29 +443,7 @@ class ActionsMP
 			}
 
 			if($action == 'mpfailure' && $s == $securekey){
-
-				$payment_id = GETPOST('payment_id','alpha');
-				$status = GETPOST('status','alpha');
-				$external_reference = GETPOST('external_reference','aZ09');
-				$payment_type = GETPOST('payment_type','aZ09');
-				$merchant_order_id = GETPOST('merchant_order_id','aZ09');
-				$preference_id = GETPOST('preference_id','aZ09');
-				$site_id = GETPOST('site_id','aZ09');
-				
-				$arrData = array(
-					'payment_id' => $payment_id,
-					'status' =>$status,
-					'external_reference' => $external_reference, //Le voy a pasar este valor de referencia al Id de mi factura
-					'payment_type' => $payment_type,
-					'merchant_order_id'=> $merchant_order_id,
-					'preference_id' => $preference_id,
-					'site_id' => $site_id
-				);
-				
-				$returnpago = aprobarPagosEnElSistema(json_encode($arrData));
-				if($returnpago){
-					unset($_SESSION["FinalPaymentMp"]);
-				}
+				unset($_SESSION["FinalPaymentMp"]);
 			}
 
 		}
